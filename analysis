@@ -1,0 +1,23 @@
+import pandas as pd
+from textblob import TextBlob
+
+# Load Yelp review dataset into a DataFrame
+df = pd.read_csv('review.csv')
+
+# Display the structure of the dataset
+# print(df.head())
+
+# Assuming 'text' is the column containing reviews
+reviews = df['text']
+
+# Function to classify sentiment as 'good' or 'bad' based on polarity score
+def classify_sentiment(text):
+    analysis = TextBlob(text)
+    # Adjust the threshold based on your preference
+    return 'good' if analysis.sentiment.polarity > 0 else 'bad'
+
+# Add a new column for sentiment classification
+df['sentiment'] = reviews.apply(classify_sentiment)
+
+# Display the DataFrame with sentiment information
+print(df[['text', 'sentiment']])
