@@ -1,0 +1,26 @@
+import pandas as pd
+import json
+
+def json_to_csv(json_file, csv_file):
+    # Initialize an empty list to store parsed JSON objects
+    data_list = []
+
+    # Read the JSON file line by line and parse each line
+    with open(json_file, 'r', encoding='utf-8') as file:
+        for line in file:
+            try:
+                data = json.loads(line)
+                data_list.append(data)
+            except json.JSONDecodeError:
+                print(f"Ignored invalid JSON line: {line.strip()}")
+
+    # Create a DataFrame from the list of parsed JSON objects
+    df = pd.DataFrame(data_list)
+
+    # Write the DataFrame to a CSV file
+    df.to_csv(csv_file, index=False, encoding='utf-8')
+
+if __name__ == "__main__":
+    json_file_path = "yelp.json"
+    csv_file_path = "yelp.csv"
+    json_to_csv(json_file_path, csv_file_path)
